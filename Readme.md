@@ -8,8 +8,12 @@ Currently this code only supports the statue of Kentucky. Other states that were
 
 The parser also only currently supports title rtf files. Files for the constitution, full text ag opinions, new sections, or other non-title rtf files should be removed from the batch of files to be processed.
 
+## Incomplete
 
-** Usage
+This project does not yet fully parse all title files correctly and is still a work in progress. If you would like to contribute, please open a pull request. Extraction of data from Title VIII has been the first priority during development.
+
+
+## Usage
 
 1. Create new folder named **transforms**
 
