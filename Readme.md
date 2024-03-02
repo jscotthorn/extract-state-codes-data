@@ -1,119 +1,21 @@
-# cic-beautify-state-codes
+# Extract State Codes Data
 
-Welcome to the Code Improvement Commission
+This project is part of a workflow to extract a structured data representation of statutes and annotations from the raw .rtf files that make up state code releases.
 
-This repository was created by UniCourt on behalf of [Public.Resource.Org](https://public.resource.org/). All this work is in the public domain and there are NO RIGHTS RESERVED.
+This project started as a fork of the UniCourt beautiful state codes repo that generates nicer HTML versions of state laws.
 
-This repository contains software that transforms official codes from ugly .rtf files into nice-looking, accessible HTML. We use "textutil" on a Mac to go from .rtf to bad HTML. Then, the code in this repository does the heavy lifting.
+Currently this code only supports the statue of Kentucky. Other states that were covered by the UniCourt project are still represented in this codebase, but the files have not been updated.
 
-Currently this code supports following states:
-
-1. ###Georgia (GA): 
-   
-   **Code repo:** https://github.com/UniCourt/cic-code-ga
-   
-   **Code pages:** https://unicourt.github.io/cic-code-ga
-
-   **Original RTF:** https://archive.org/download/gov.ga.ocga.2018
-
-   
-
-2. ###Arkansas (AR):
-   
-   **Code repo:** https://github.com/UniCourt/cic-code-ar
-   
-   **Code pages:** https://unicourt.github.io/cic-code-ar
-   
-   **Original RTF:** https://archive.org/download/gov.ar.code
+The parser also only currently supports title rtf files. Files for the constitution, full text ag opinions, new sections, or other non-title rtf files should be removed from the batch of files to be processed.
 
 
-3. ###Mississippi (MS):
-   
-   **Code repo:** https://github.com/UniCourt/cic-code-ms
-   
-   **Code pages:** https://unicourt.github.io/cic-code-ms
-   
-   **Original RTF:** https://archive.org/download/gov.ms.code.ann.2018
-
-
-4. ###Tennessee (TN):
-   
-   **Code repo:** https://github.com/UniCourt/cic-code-tn
-   
-   **Code pages:** https://unicourt.github.io/cic-code-tn
-   
-   **Original RTF:** https://archive.org/details/gov.tn.tca
-
-5. ###Kentucky (KY):
-   
-   **Code repo:** https://github.com/UniCourt/cic-code-ky
-   
-   **Code pages:** https://unicourt.github.io/cic-code-ky
-   
-   **Original RTF:** https://archive.org/details/gov.ky.code
-
-6. ###Colorado (CO):
-   
-   **Code repo:** https://github.com/UniCourt/cic-code-co
-   
-   **Code pages:** https://unicourt.github.io/cic-code-co
-   
-   **Original RTF:** https://archive.org/download/gov.co.crs.bulk
-
-
-7. ###Idaho (ID):
-   
-   **Code repo:** https://github.com/UniCourt/cic-code-id
-   
-   **Code pages:** https://unicourt.github.io/cic-code-id
-   
-   **Original files can be found here:** https://archive.org/details/govlaw?and%5B%5D=subject%3A%22idaho.gov%22+AND+subject%3A%222020+Code%22&sin=&sort=titleSorter
-
-
-8. ###Virginia (VA):
-   
-   **Code repo:** https://github.com/UniCourt/cic-code-va
-   
-   **Code pages:** https://unicourt.github.io/cic-code-va
-   
-   **Original RTF:**  https://archive.org/download/gov.va.code/
-
-
-9. ###Vermont (VT):
-   
-   **Code repo:** https://github.com/UniCourt/cic-code-vt
-   
-   **Code pages:** https://unicourt.github.io/cic-code-vt
-   
-   **Original RTF:** https://archive.org/download/gov.vt.code
-
-10. ###Wyoming (WY):
-   
-      **Code repo:** https://github.com/UniCourt/cic-code-wy
-      
-      **Code pages:** https://unicourt.github.io/cic-code-wy
-      
-      **Original RTF:** https://archive.org/details/gov.wy.code/
-
-
-In subsequent months, we intend to add two more features:
-
-1. Extend the code to handle the official codes Colorado and Idaho.
-2. Add a "redline" capability to show diffs. 
-
-**REQUIREMENTS AND INSTALLATION**
-
-**BeautifulSoup 4:** https://www.crummy.com/software/BeautifulSoup/
-
-**lxml:** https://lxml.de/
-
-**To setup project :**
+** Usage
 
 1. Create new folder named **transforms**
 
 2. Based on the state create a folder called *transforms/{state_name}*
 
-3.Inside the above folder based on the release create a folder ocga/{release} which will contain raw files (raw files are textutil output files)
+3.Inside the above folder based on the release create a folder oc{stateCode}/{release} which will contain raw files (raw files are textutil output files)
 
 4. Example folder structure:
 
@@ -127,8 +29,8 @@ In subsequent months, we intend to add two more features:
                     │   │   file012.py
                     |
                     └───transforms
-                    │   └───ga
-                    │       └───ocga
+                    │   └───ky
+                    │       └───ocky
                     │              └───raw
                     │                     title_01.html
     
@@ -139,12 +41,12 @@ In subsequent months, we intend to add two more features:
 
 **Usage:** python html_parser/html_parse_runner.py
 
-        [--state_key (GA)]
+        [--state_key (KY)]
         
         [--release_label (Release-75)]
         
         [--release_date (DD-MM-YYYY)]
         
-        [--input_file_name (gov.ga.ocga.title.01.html) This is an optional argument,
+        [--input_file_name (gov.ky.ocga.title.01.html) This is an optional argument,
         
         if this argument is not passed all the files for provided release label will be parsed]

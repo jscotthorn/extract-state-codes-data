@@ -1,6 +1,6 @@
 """
-    - start method of this file is called by html_parse_runner
-    - based on passed arguments start method of html parser is called
+    - start method of this file is called by extract_data
+    - extract_data passes arguments from the CLI
 """
 import multiprocessing
 from os import listdir
@@ -15,7 +15,7 @@ class ParserBase:
         self.release_number = os.environ.get("release_number")
         self.release_date = os.environ.get("release_date")
         self.release_label = None
-        self.html_file_name = None
+        self.file_name = None
         self.state_key = None
 
     def start(self, state_key):
@@ -23,13 +23,12 @@ class ParserBase:
         if input_file_name := os.environ.get('input_file_name'):
             """
                     - if the input_file_name args is passed to the program
-                      then start_parse method of html_parser and pass pass the input file name
+                      then start_parse method of parser and pass pass the input file name
                 """
-            script = f'{state_key.lower()}_html_parser'
-            class_name = f'{state_key}ParseHtml'
+            script = f'{state_key.lower()}_parser'
+            class_name = f'{state_key}Parser'
             parser_obj = getattr(importlib.import_module(script), class_name)
             parser_obj(input_file_name)
-            # parser_obj(input_file_name).start_parse()
 
         else:
             self.folder_ = """
@@ -37,7 +36,7 @@ class ParserBase:
                       - call method run_with_multiprocessing_pool with list of file names present in raw folder
                   """
             self.cpu_count = multiprocessing.cpu_count()
-            print(self.cpu_count)
+            print('CPU Count ' + str(self.cpu_count))
             input_files_list = listdir(f'../transforms/{state_key.lower()}/oc{state_key.lower()}/r{self.release_number}/raw/')
             self.run_with_multiprocessing_pool(input_files_list, state_key)
 
@@ -54,13 +53,13 @@ class ParserBase:
 
     def wrapper_function(self, files_list):
         """
-            - call start_parse method of html_parser with passed file name
-            - log any errors thrown by html parser
+            - call start_parse method of parser with passed file name
+            - log any errors thrown by parser
         """
         logger = multiprocessing.get_logger()
         try:
-            script = f'{self.state_key.lower()}_html_parser'
-            class_name = f'{self.state_key}ParseHtml'
+            script = f'{self.state_key.lower()}_parser'
+            class_name = f'{self.state_key}Parser'
             parser_obj = getattr(importlib.import_module(script), class_name)
             parser_obj(files_list)
         except Exception as e:
